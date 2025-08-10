@@ -53,7 +53,7 @@ O programa oferece um menu com **8 opções de conversão pré-definidas**:
 
 - **Linguagem**: Java 11
 - **Build Tool**: Maven
-- **API**: ExchangeRate-API (chave: `b2631255ac4cefb5334dea2f`)
+- **API**: ExchangeRate-API 
 - **Biblioteca JSON**: Gson 2.10.1
 - **Testes**: JUnit 5 + Mockito
 - **IDE**: IntelliJ IDEA (configurado)
