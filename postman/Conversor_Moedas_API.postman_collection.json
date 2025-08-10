@@ -1,0 +1,523 @@
+{
+	"info": {
+		"_postman_id": "b2631255ac4cefb5334dea2f",
+		"name": "Conversor Moedas API",
+		"description": "Coleção de testes para a API ExchangeRate-API utilizada no Conversor de Moedas",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Testar API ExchangeRate-API",
+			"item": [
+				{
+					"name": "1. Testar Cotação USD para BRL",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://v6.exchangerate-api.com/v6/b2631255ac4cefb5334dea2f/latest/USD",
+							"protocol": "https",
+							"host": [
+								"v6",
+								"exchangerate-api",
+								"com"
+							],
+							"path": [
+								"v6",
+								"b2631255ac4cefb5334dea2f",
+								"latest",
+								"USD"
+							]
+						},
+						"description": "Testa a obtenção de cotações do Dólar Americano para outras moedas"
+					},
+					"response": [],
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Teste 1: Verificar status da resposta",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"// Teste 2: Verificar se a resposta é JSON",
+									"pm.test(\"Response is JSON\", function () {",
+									"    pm.response.to.be.json;",
+									"});",
+									"",
+									"// Teste 3: Verificar estrutura da resposta",
+									"pm.test(\"Response has required fields\", function () {",
+									"    const responseJson = pm.response.json();",
+									"    pm.expect(responseJson).to.have.property('base_code');",
+									"    pm.expect(responseJson).to.have.property('conversion_rates');",
+									"    pm.expect(responseJson).to.have.property('time_last_update_utc');",
+									"    pm.expect(responseJson).to.have.property('time_next_update_utc');",
+									"});",
+									"",
+									"// Teste 4: Verificar se base_code é USD",
+									"pm.test(\"Base currency is USD\", function () {",
+									"    const responseJson = pm.response.json();",
+									"    pm.expect(responseJson.base_code).to.eql('USD');",
+									"});",
+									"",
+									"// Teste 5: Verificar se BRL está nas taxas de conversão",
+									"pm.test(\"BRL conversion rate exists\", function () {",
+									"    const responseJson = pm.response.json();",
+									"    pm.expect(responseJson.conversion_rates).to.have.property('BRL');",
+									"});",
+									"",
+									"// Teste 6: Verificar se a taxa BRL é um número válido",
+									"pm.test(\"BRL rate is a valid number\", function () {",
+									"    const responseJson = pm.response.json();",
+									"    pm.expect(responseJson.conversion_rates.BRL).to.be.a('number');",
+									"    pm.expect(responseJson.conversion_rates.BRL).to.be.above(0);",
+									"});",
+									"",
+									"// Teste 7: Verificar tempo de resposta",
+									"pm.test(\"Response time is less than 2000ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					]
+				},
+				{
+					"name": "2. Testar Cotação EUR para BRL",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://v6.exchangerate-api.com/v6/b2631255ac4cefb5334dea2f/latest/EUR",
+							"protocol": "https",
+							"host": [
+								"v6",
+								"exchangerate-api",
+								"com"
+							],
+							"path": [
+								"v6",
+								"b2631255ac4cefb5334dea2f",
+								"latest",
+								"EUR"
+							]
+						},
+						"description": "Testa a obtenção de cotações do Euro para outras moedas"
+					},
+					"response": [],
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Teste 1: Verificar status da resposta",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"// Teste 2: Verificar se base_code é EUR",
+									"pm.test(\"Base currency is EUR\", function () {",
+									"    const responseJson = pm.response.json();",
+									"    pm.expect(responseJson.base_code).to.eql('EUR');",
+									"});",
+									"",
+									"// Teste 3: Verificar se BRL está nas taxas de conversão",
+									"pm.test(\"BRL conversion rate exists\", function () {",
+									"    const responseJson = pm.response.json();",
+									"    pm.expect(responseJson.conversion_rates).to.have.property('BRL');",
+									"});",
+									"",
+									"// Teste 4: Verificar se USD está nas taxas de conversão",
+									"pm.test(\"USD conversion rate exists\", function () {",
+									"    const responseJson = pm.response.json();",
+									"    pm.expect(responseJson.conversion_rates).to.have.property('USD');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					]
+				},
+				{
+					"name": "3. Testar Cotação BRL para USD",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://v6.exchangerate-api.com/v6/b2631255ac4cefb5334dea2f/latest/BRL",
+							"protocol": "https",
+							"host": [
+								"v6",
+								"exchangerate-api",
+								"com"
+							],
+							"path": [
+								"v6",
+								"b2631255ac4cefb5334dea2f",
+								"latest",
+								"BRL"
+							]
+						},
+						"description": "Testa a obtenção de cotações do Real Brasileiro para outras moedas"
+					},
+					"response": [],
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Teste 1: Verificar status da resposta",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"// Teste 2: Verificar se base_code é BRL",
+									"pm.test(\"Base currency is BRL\", function () {",
+									"    const responseJson = pm.response.json();",
+									"    pm.expect(responseJson.base_code).to.eql('BRL');",
+									"});",
+									"",
+									"// Teste 3: Verificar se USD está nas taxas de conversão",
+									"pm.test(\"USD conversion rate exists\", function () {",
+									"    const responseJson = pm.response.json();",
+									"    pm.expect(responseJson.conversion_rates).to.have.property('USD');",
+									"});",
+									"",
+									"// Teste 4: Verificar se EUR está nas taxas de conversão",
+									"pm.test(\"EUR conversion rate exists\", function () {",
+									"    const responseJson = pm.response.json();",
+									"    pm.expect(responseJson.conversion_rates).to.have.property('EUR');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					]
+				},
+				{
+					"name": "4. Testar Cotação GBP para BRL",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://v6.exchangerate-api.com/v6/b2631255ac4cefb5334dea2f/latest/GBP",
+							"protocol": "https",
+							"host": [
+								"v6",
+								"exchangerate-api",
+								"com"
+							],
+							"path": [
+								"v6",
+								"b2631255ac4cefb5334dea2f",
+								"latest",
+								"GBP"
+							]
+						},
+						"description": "Testa a obtenção de cotações da Libra Esterlina para outras moedas"
+					},
+					"response": [],
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Teste 1: Verificar status da resposta",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"// Teste 2: Verificar se base_code é GBP",
+									"pm.test(\"Base currency is GBP\", function () {",
+									"    const responseJson = pm.response.json();",
+									"    pm.expect(responseJson.base_code).to.eql('GBP');",
+									"});",
+									"",
+									"// Teste 3: Verificar se BRL está nas taxas de conversão",
+									"pm.test(\"BRL conversion rate exists\", function () {",
+									"    const responseJson = pm.response.json();",
+									"    pm.expect(responseJson.conversion_rates).to.have.property('BRL');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					]
+				},
+				{
+					"name": "5. Testar Cotação JPY para BRL",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://v6.exchangerate-api.com/v6/b2631255ac4cefb5334dea2f/latest/JPY",
+							"protocol": "https",
+							"host": [
+								"v6",
+								"exchangerate-api",
+								"com"
+							],
+							"path": [
+								"v6",
+								"b2631255ac4cefb5334dea2f",
+								"latest",
+								"JPY"
+							]
+						},
+						"description": "Testa a obtenção de cotações do Iene Japonês para outras moedas"
+					},
+					"response": [],
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Teste 1: Verificar status da resposta",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"// Teste 2: Verificar se base_code é JPY",
+									"pm.test(\"Base currency is JPY\", function () {",
+									"    const responseJson = pm.response.json();",
+									"    pm.response.json();",
+									"    pm.expect(responseJson.base_code).to.eql('JPY');",
+									"});",
+									"",
+									"// Teste 3: Verificar se BRL está nas taxas de conversão",
+									"pm.test(\"BRL conversion rate exists\", function () {",
+									"    const responseJson = pm.response.json();",
+									"    pm.expect(responseJson.conversion_rates).to.have.property('BRL');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					]
+				},
+				{
+					"name": "6. Testar API Key Inválida",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://v6.exchangerate-api.com/v6/INVALID_KEY/latest/USD",
+							"protocol": "https",
+							"host": [
+								"v6",
+								"exchangerate-api",
+								"com"
+							],
+							"path": [
+								"v6",
+								"INVALID_KEY",
+								"latest",
+								"USD"
+							]
+						},
+						"description": "Testa o comportamento da API com uma chave inválida"
+					},
+					"response": [],
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Teste 1: Verificar se a resposta não é 200",
+									"pm.test(\"Status code is not 200\", function () {",
+									"    pm.expect(pm.response.code).to.not.equal(200);",
+									"});",
+									"",
+									"// Teste 2: Verificar se há mensagem de erro",
+									"pm.test(\"Error message exists\", function () {",
+									"    const responseJson = pm.response.json();",
+									"    pm.expect(responseJson).to.have.property('result');",
+									"    pm.expect(responseJson.result).to.equal('error');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					]
+				},
+				{
+					"name": "7. Testar Moeda Inválida",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://v6.exchangerate-api.com/v6/b2631255ac4cefb5334dea2f/latest/INVALID",
+							"protocol": "https",
+							"host": [
+								"v6",
+								"exchangerate-api",
+								"com"
+							],
+							"path": [
+								"v6",
+								"b2631255ac4cefb5334dea2f",
+								"latest",
+								"INVALID"
+							]
+						},
+						"description": "Testa o comportamento da API com uma moeda inválida"
+					},
+					"response": [],
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Teste 1: Verificar se a resposta não é 200",
+									"pm.test(\"Status code is not 200\", function () {",
+									"    pm.expect(pm.response.code).to.not.equal(200);",
+									"});",
+									"",
+									"// Teste 2: Verificar se há mensagem de erro",
+									"pm.test(\"Error message exists\", function () {",
+									"    const responseJson = pm.response.json();",
+									"    pm.expect(responseJson).to.have.property('result');",
+									"    pm.expect(responseJson.result).to.equal('error');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					]
+				},
+				{
+					"name": "8. Testar Performance da API",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://v6.exchangerate-api.com/v6/b2631255ac4cefb5334dea2f/latest/USD",
+							"protocol": "https",
+							"host": [
+								"v6",
+								"exchangerate-api",
+								"com"
+							],
+							"path": [
+								"v6",
+								"b2631255ac4cefb5334dea2f",
+								"latest",
+								"USD"
+							]
+						},
+						"description": "Testa a performance da API"
+					},
+					"response": [],
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Teste 1: Verificar tempo de resposta",
+									"pm.test(\"Response time is acceptable\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);",
+									"});",
+									"",
+									"// Teste 2: Verificar se a resposta é válida",
+									"pm.test(\"Response is valid JSON\", function () {",
+									"    pm.response.to.be.json;",
+									"});",
+									"",
+									"// Teste 3: Verificar estrutura da resposta",
+									"pm.test(\"Response structure is correct\", function () {",
+									"    const responseJson = pm.response.json();",
+									"    pm.expect(responseJson).to.have.property('base_code');",
+									"    pm.expect(responseJson).to.have.property('conversion_rates');",
+									"    pm.expect(responseJson.conversion_rates).to.be.an('object');",
+									"    pm.expect(Object.keys(responseJson.conversion_rates).length).to.be.above(0);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					]
+				}
+			],
+			"description": "Coleção completa de testes para validar a API ExchangeRate-API"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Script executado antes de cada requisição",
+					"console.log('Iniciando teste: ' + pm.info.requestName);"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Script executado após cada requisição",
+					"console.log('Teste concluído: ' + pm.info.requestName);",
+					"console.log('Status: ' + pm.response.code);",
+					"console.log('Tempo de resposta: ' + pm.response.responseTime + 'ms');"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "API_KEY",
+			"value": "b2631255ac4cefb5334dea2f",
+			"type": "string"
+		},
+		{
+			"key": "BASE_URL",
+			"value": "https://v6.exchangerate-api.com/v6",
+			"type": "string"
+		}
+	]
+}
